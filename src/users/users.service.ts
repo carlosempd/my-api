@@ -19,6 +19,10 @@ export class UsersService {
         return this.usersRepository.findOneBy({ id });
     }
 
+    findByEmail(email: string): Promise<User> {
+        return this.usersRepository.findOneBy({ email });
+    }
+
     async remove(id: number) {
         return await this.usersRepository.softDelete(id);
     }
