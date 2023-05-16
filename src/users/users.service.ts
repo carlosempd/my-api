@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto } from 'src/core/dto/createUser.dto';
 import { User } from 'src/core/entity/user.entity';
 import { Repository } from 'typeorm';
 
@@ -20,5 +21,15 @@ export class UsersService {
 
     async remove(id: number) {
         return await this.usersRepository.softDelete(id);
+    }
+
+    create(body: CreateUserDto): Promise<User> {
+        const user = new User();
+        user.email = body.email;
+        user.name = body.name;
+        user.lastname = body.lastname;
+        user.password = body.password;
+        user.role = { id: body.roleId, name: body.roleId === 1 ? 'user' : 'admin' }
+        return this.usersRepository.save(user);
     }
 }
