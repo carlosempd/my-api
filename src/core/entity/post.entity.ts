@@ -1,5 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
+import { IsDate } from "class-validator";
 
 @Entity()
 export class Posts {
@@ -12,13 +13,14 @@ export class Posts {
     @Column()
     text: string;
 
-    @Column()
+    @Column({ nullable: true })
     rating: number;
 
-    @Column()
+    @Column({ default: () => 'CURRENT_TIMESTAMP' })
+    @IsDate()
     creationDate: Date;
 
-    @Column()
+    @Column({ nullable: true })
     editDate: Date
 
     @ManyToOne(() => User, (user) => user.postsCreated)
