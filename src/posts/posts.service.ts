@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from 'src/core/dto/createPost.dto';
 import { Posts } from 'src/core/entity/post.entity';
+import { IUserFromToken } from 'src/core/interfaces/user.interface';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 
@@ -15,7 +16,7 @@ export class PostsService {
 
     async create(
         body: CreatePostDto, 
-        userFromToken: { email: string, sub: number }
+        userFromToken: IUserFromToken
     ): Promise<Posts> {
         const post = new Posts();
         const user = await this.userService.findById(userFromToken.sub);
@@ -38,15 +39,26 @@ export class PostsService {
         return await this.postRepository.softDelete({ id });
     }
 
-    async update(id: number, updatePostDto): Promise<Posts> {
+    async update(
+        id: number, 
+        updatePostDto, 
+        userFromToken: IUserFromToken
+    ): Promise<Posts> {
         const post = await this.findById(id);
+        const user = await this.userService.findById(userFromToken.sub);
 
         if (!post) {
             throw new BadRequestException({ message: 'Post doesn\'t exist' })
         }
 
         Object.assign(post, updatePostDto);
+        post.editDate = new Date();
+        post.editUser = post.editUser?.concat(user) ?? [user];
 
         return this.postRepository.save(post);
+    }
+
+    ratePost(id: number) {
+
     }
 }
