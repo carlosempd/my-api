@@ -1,4 +1,10 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { 
+    Column, 
+    Entity, 
+    JoinTable, 
+    ManyToMany, 
+    ManyToOne, 
+    PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { IsDate } from "class-validator";
 
