@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from 'src/core/dto/createPost.dto';
+import { RatePostDto } from 'src/core/dto/ratePost.dto';
+import { UpdatePostDto } from 'src/core/dto/updatePost.dto';
 import { Posts } from 'src/core/entity/post.entity';
 import { IUserFromToken } from 'src/core/interfaces/user.interface';
 import { UsersService } from 'src/users/users.service';
@@ -41,7 +43,7 @@ export class PostsService {
 
     async update(
         id: number, 
-        updatePostDto, 
+        updatePostDto: UpdatePostDto, 
         userFromToken: IUserFromToken
     ): Promise<Posts> {
         const post = await this.findById(id);
@@ -58,7 +60,9 @@ export class PostsService {
         return this.postRepository.save(post);
     }
 
-    ratePost(id: number) {
-
+    async ratePost(ratePostDto: RatePostDto): Promise<Posts> {
+        const post = await this.findById(ratePostDto.id);
+        post.rating = post.rating?.concat(ratePostDto.rating) ?? [ratePostDto.rating];
+        return this.postRepository.save(post);
     }
 }

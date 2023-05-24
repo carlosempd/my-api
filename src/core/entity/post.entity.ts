@@ -19,8 +19,8 @@ export class Posts {
     @Column()
     text: string;
 
-    @Column({ nullable: true })
-    rating: number;
+    @Column('integer', { nullable: true, array: true, default: [] })
+    rating: number[];
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     @IsDate()

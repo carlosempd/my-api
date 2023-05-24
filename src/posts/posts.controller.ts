@@ -11,6 +11,8 @@ import {
 import { CreatePostDto } from 'src/core/dto/createPost.dto';
 import { PostsService } from './posts.service';
 import { AuthGuard } from 'src/core/guards/auth/auth.guard';
+import { UpdatePostDto } from 'src/core/dto/updatePost.dto';
+import { RatePostDto } from 'src/core/dto/ratePost.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -39,7 +41,15 @@ export class PostsController {
 
     @UseGuards(AuthGuard)
     @Put(':id')
-    update(@Req() req: Request, @Param('id') id: number, @Body() updatePostDto) {
+    update(
+        @Req() req: Request, 
+        @Param('id') id: number, 
+        @Body() updatePostDto: UpdatePostDto) {
         return this.postService.update(id, updatePostDto, req['user']);
+    }
+
+    @Post('rate')
+    ratePost(@Body() ratePostDto: RatePostDto) {
+        return this.postService.ratePost(ratePostDto);
     }
 }
