@@ -12,11 +12,16 @@ export class UsersService {
     ) {}
 
     findAll(): Promise<User[]> {
-        return this.usersRepository.find();
+        return this.usersRepository.find({
+            relations: { role: true }
+        });
     }
 
     findById(id: number): Promise<User> {
-        return this.usersRepository.findOneBy({ id });
+        return this.usersRepository.findOne({
+            where: { id },
+            relations: { role: true }
+        });
     }
 
     findByEmail(email: string): Promise<User> {
