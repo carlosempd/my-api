@@ -30,7 +30,11 @@ export class PostsService {
     }
 
     findAll(): Promise<Posts[]> {
-        return this.postRepository.find();
+        return this.postRepository.find({
+            order: {
+                creationDate: 'DESC'
+            }
+        });
     }
 
     findById(id: number): Promise<Posts> {
