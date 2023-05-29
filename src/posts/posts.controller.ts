@@ -10,7 +10,7 @@ import {
     UseGuards } from '@nestjs/common';
 import { CreatePostDto } from 'src/core/dto/createPost.dto';
 import { PostsService } from './posts.service';
-import { AuthGuard } from 'src/core/guards/auth/auth.guard';
+import { AuthGuard } from 'src/core/guards/auth.guard';
 import { UpdatePostDto } from 'src/core/dto/updatePost.dto';
 import { RatePostDto } from 'src/core/dto/ratePost.dto';
 
