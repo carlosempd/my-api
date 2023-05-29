@@ -18,8 +18,8 @@ export class AuthService {
         if (!user || user?.password !== body.password) {
             throw new UnauthorizedException();
         }
-
-        const payload = { email: user.email, sub: user.id };
+        
+        const payload = { email: user.email, sub: user.id, role: user.role };
         return {
             access_token: await this.jwtService.signAsync(payload, {
                 secret: this.configService.get<string>('jwt.secret'),
