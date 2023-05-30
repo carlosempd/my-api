@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/core/dto/createUser.dto';
 import { User } from 'src/core/entity/user.entity';
+import { PermissionEnum } from 'src/core/enums/permission.enum';
 import { PermissionsService } from 'src/permissions/permissions.service';
 import { Repository } from 'typeorm';
 
@@ -58,6 +59,7 @@ export class UsersService {
         user.lastname = body.lastname;
         user.password = body.password;
         user.role = { id: body.roleId, name: body.roleId === 1 ? 'user' : 'admin' }
+        user.permission = [{id: PermissionEnum.read, name: 'read'}]
         return this.usersRepository.save(user);
     }
 }
