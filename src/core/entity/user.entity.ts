@@ -25,6 +25,7 @@ export class User {
     role: Role;
 
     @ManyToMany(() => Permission, permission => permission.users)
+    @JoinTable()
     permission: Permission[]
 
     @OneToMany(() => Posts, (post) => post.author)

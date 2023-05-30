@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { User } from 'src/core/entity/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/core/dto/createUser.dto';
@@ -30,4 +30,12 @@ export class UsersController {
     create(@Body() createUserBody: CreateUserDto) {
         return this.userService.create(createUserBody);
     }
+
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(Role.Admin)
+    @Put('grant-permission/:id')
+    grantPermission(@Param('id') id: number, @Body() body: { permissions: number[] }) {
+        return this.userService.grantPermissionToUser(id, body.permissions)
+    }
+
 }

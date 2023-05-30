@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { jwtConfig } from './core/config/jwt.config';
+import { PermissionsModule } from './permissions/permissions.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { jwtConfig } from './core/config/jwt.config';
         migrations: [__dirname + '/../migrations/**/*{.ts,.js}'],
         autoLoadEntities: true,
       })
-    })
+    }),
+    PermissionsModule
   ],
   controllers: [AppController],
   providers: [AppService],
