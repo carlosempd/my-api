@@ -6,11 +6,13 @@ import { AuthGuard } from 'src/core/guards/auth.guard';
 import { Roles } from 'src/core/decorators/roles.decorator';
 import { Role } from 'src/core/enums/role.enum';
 import { RolesGuard } from 'src/core/guards/roles.guard';
+import { ApiCreatedResponse, ApiForbiddenResponse, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
     constructor(private userService: UsersService) {}
-
+    
     @UseGuards(AuthGuard, RolesGuard)
     @Roles(Role.Admin)
     @Get()
@@ -24,6 +26,9 @@ export class UsersController {
         return this.userService.findById(params.id);
     }
 
+    @ApiCreatedResponse({ description: 'Created Succesfully', type: User })
+    @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
+    @ApiForbiddenResponse({ description: 'Unauthorized Request' })
     @Roles(Role.Admin)
     @Post()
     @UsePipes(new ValidationPipe())

@@ -16,7 +16,9 @@ import { RatePostDto } from 'src/core/dto/ratePost.dto';
 import { PermissionGuard } from 'src/core/guards/permission.guard';
 import { Permission } from 'src/core/decorators/permission.decorator';
 import { PermissionEnum } from 'src/core/enums/permission.enum';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
     constructor(private postService: PostsService) {}
